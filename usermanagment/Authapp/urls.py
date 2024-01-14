@@ -1,15 +1,16 @@
 from django.urls import path
 from rest_framework import routers
-from .views import UserViewSet, UserLoginViewSet
+from .views import login_view
+# from .views import UserViewSet, UserLoginViewSet ,login_view
 
 
-router = routers.DefaultRouter()
-router.register(r'Users', UserViewSet)
-router.register(r'Userlogin', UserLoginViewSet)
+# router = routers.DefaultRouter()
+# router.register(r'Users', UserViewSet)
+# router.register(r'Userlogin', UserLoginViewSet)
+# router.register(r'login_view', login_view())
 
-urlpatterns = router.urls
-# urlpatterns = [
-#     path('user-details/', UserViewSet.as_view(), name='user-details-list-create'),
-#     path('user-login/', UserLoginViewSet.as_view(), name='user-login-list-create'),
-#     # Add other URLs as needed
-# ]
+# urlpatterns = router.urls
+urlpatterns = [
+    path('login_view/', login_view),
+    # Add other URLs as needed
+]
