@@ -3,6 +3,10 @@ from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.exceptions import AuthenticationFailed
+from .utils import generate_jwt, decode_token
+import jwt
 
 from .models import UserDetails, UserLogin
 from .serializers import UserSerializer, UserLoginSerializer
@@ -21,7 +25,7 @@ from .serializers import UserSerializer, UserLoginSerializer
 
 
 @api_view(['POST', 'GET'])
-def login_view(request):
+def register_view(request):
     data=request.data
     email1=data.get('email')
     password1=data.get('password')
@@ -33,7 +37,7 @@ def login_view(request):
         
         # print(data)
         if serializer.is_valid():
-            print("sdasdasd")
+            # print("sdasdasd")
             serializer.save()
             data11=UserLogin.objects.create(
             emai=email1,
@@ -48,5 +52,65 @@ def login_view(request):
         }, status=status.HTTP_400_BAD_REQUEST)
     
 
+
+
+
+@api_view(['POST'])
+def login_view(request):
+    # how to store response in local storage in react
+    data = request.data
+    # user=UserLogin()
+    login_data=UserLogin.objects.filter(emai=data.get("email2"))
+    print("post:",data)
+    print(login_data)
+    if login_data:
+        token = generate_jwt(data)
+        response = {
+        "meggage": "Logined success",
+        "jwt": token}
+        # response.set_cookie(key="jwt", value=token)
+        return Response(response, status=status.HTTP_200_OK)
+    else:
+        response={
+        "meggage": "Data is not valid",
+        }
+        return Response(response, status=status.HTTP_400_BAD_REQUEST)
     
+
+
+@api_view(['GET'])
+def UserView(request):
+    token=request.COOKIES.get('jwt')
+
+    if not token:
+        raise AuthenticationFailed('unauthenticated')
     
+    try:
+        payload=jwt.decode(token,'secret', algorithm=['HS256'])
+    except jwt.ExpireSignatureError:
+        raise AuthenticationFailed('Unauthenticated')
+    
+    user=UserDetails.objects.get(payload['id'])
+    serializer = UserSerializer(user)
+
+
+
+@api_view(['POST'])
+def check_permission(request):
+    print("step1")
+    token = request.data
+    # token = request.headers.get('Authorization')
+    # print(token.get('headers'),"step2")
+    token2=token.get('headers')
+    token3=token2.get('Authorization')
+    print(token3)
+    # token = token.replace("Bearer ", "")
+    decoded_token = decode_token(token3)
+    decoded_token_payload = {
+        "decoded_token": decoded_token
+    }
+    print(decoded_token)
+    if decoded_token:
+
+    # return Response("okkkkk", status=status.HTTP_200_OK)
+        return Response(decoded_token_payload, status=status.HTTP_200_OK)

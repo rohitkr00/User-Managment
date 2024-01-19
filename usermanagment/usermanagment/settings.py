@@ -126,6 +126,12 @@ CORS_ORIGIN_WHITELIST=[
     "http://localhost:3000"
 ]
 
+REST_FRAMEWORK = { 
+	'DEFAULT_AUTHENTICATION_CLASSES': [ 
+		'rest_framework_simplejwt.authentication.JWTAuthentication', 
+	], 
+} 
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/

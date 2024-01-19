@@ -1,101 +1,45 @@
-import React, { useState } from "react";
-import './register.css';
+import React from "react";
+import { useState } from "react";
 import axios from "axios";
+import { Outlet, Link } from "react-router-dom";
 
-const Register = () =>  {
+export default function Signup() {
 
-  const [user, setUser] = useState({
-    name:"",email:"",password:"",adress:"",gender:"",designation:"",department:"",ctc:"",education:"",phone:"",
-  })
-  
-
-
-  let name, value;
-  const handleInputs = (e) => {
-    console.log(e);
-    name = e.target.name;
-    value = e.target.value;
-
-    setUser({...user, [name]:value});
-  }
-
-// ---------------------------------------------------------------------------------------------------
-
-  const [user_login, setUserLogin] = useState({
-    email2:"", password2:""
-  })
-
-  let name2, value2;
-  const handleInputLogin = (e) => {
-    console.log(e);
-    name2 = e.target.name;
-    value2 = e.target.value;
-
-    setUserLogin({...user_login, [name2]:value2});
-  }
-
-  
-// -------------------------------------------------------------------------------------------------------
-
-  const baseURL = "http://127.0.0.1:8000/Authapp/register_view/";
-  const handleSubmit = (e) => {
-      e.preventDefault();
-      axios.post(baseURL, user).then((response) => {
-        console.log(response)
-      }).then(setAction("Login"));
-    
-    
+    const [user, setUser] = useState({
+        name:"",email:"",password:"",adress:"",gender:"",designation:"",department:"",ctc:"",education:"",phone:"",
+      })
       
-  }
-
-
-  // -------------------------------------------------------------------------------------------------
-
-
-  const baseURL2 = "http://127.0.0.1:8000/Authapp/login_view/";
-  const handleSubmitLogin = (e) => {
-    e.preventDefault();
-    axios.post(baseURL2, user_login)
-    .then((response) => {
-        localStorage.setItem('token', response.data.jwt);
-      
-      });
-      CheckResponse();
-     
-      
-  }
-
-  
-  const baseURL3 = "http://127.0.0.1:8000/Authapp/check_permission/";
-  function CheckResponse()  {
-    
-    let token = localStorage.getItem('token');
-    // const axios = require('axios');
     
     
-    // console.log(headers)
-    axios.post(baseURL3, {
-      headers: { 'Authorization': token }
-    })
-    .then((response) => {
-      console.log(response);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-  }
+      let name, value;
+      const handleInputs = (e) => {
+        console.log(e);
+        name = e.target.name;
+        value = e.target.value;
+    
+        setUser({...user, [name]:value});
+      }
+
+      const baseURL = "http://127.0.0.1:8000/Authapp/register_view/";
+      const handleSubmit = (e) => {
+          e.preventDefault();
+          axios.post(baseURL, user).then((response) => {
+            console.log(response)
+          });
+        
+        
+          
+      }
 
 
 
 
 
+    return (
+        
+ <>
 
-  const [action,setAction] = useState("Login")
 
-    return(
-
-
-<>
   <meta charSet="utf-8" />
   <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
   <title />
@@ -128,57 +72,14 @@ const Register = () =>  {
               <div className="col-xl-6">
                 <div className="card-body p-md-5 text-black">
                   <h3 className="mb-5">
-                    {action}
+                    SignUp
                   </h3>
 
 
 
 
 
-                    {action==="Login"?<>
-                    
-                    <div className="row">
-  <div className="col-md-6 mb-4">
-    <div className="form-outline">
-      <input
-        type="email"
-       
-        className="form-control form-control-lg"
-        name="email2"
-        value={user_login.email2}
-        onChange={handleInputLogin}
-      />
-      <label className="form-label" htmlFor="form3Example1m">
-        Email
-      </label>
-    </div>
-  </div>
-  <div className="col-md-6 mb-4">
-    <div className="form-outline">
-      <input
-        type="password"
-        
-        className="form-control form-control-lg"
-        name="password2"
-        value={user_login.password2}
-        onChange={handleInputLogin}
-      />
-      <label className="form-label" htmlFor="form3Example1n">
-        Password
-      </label>
-    </div>
-  </div>
-</div>
-
-
-
-                    
-                    </>:
-
-
-
-
-<>
+                   
                   <div className="row">
                     <div className="col-md-6 mb-4">
                       <div className="form-outline">
@@ -373,18 +274,18 @@ const Register = () =>  {
                     </label>
                   </div> */}
 
-             </>   }
+             
 
 
 
                   <div className="d-flex justify-content-end pt-3">
                     
-                    <button type="button" className={action==="SignUp"?"btn btn-light btn-lg":"btn btn-warning btn-lg ms-2"} onClick={handleSubmitLogin}>
+                    <button type="button" className="btn btn-light btn-lg" >
                       Login
                     </button>
                     <button
                       type="button"
-                      className={action==="Login"?"btn btn-light btn-lg":"btn btn-warning btn-lg ms-2"} onClick={handleSubmit}>
+                      className="btn btn-warning btn-lg ms-2" onClick={handleSubmit}>
                       SignUp
                     </button>
                   </div>
@@ -396,11 +297,16 @@ const Register = () =>  {
       </div>
     </div>
   </section>
+  <Outlet />
 </>
 
 
-)
 
+
+
+    );
+
+
+            
+    
 }
-
-export default Register;
