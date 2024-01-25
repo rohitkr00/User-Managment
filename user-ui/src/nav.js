@@ -1,8 +1,40 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.css';
 import { Outlet, Link } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 
-export default function Nav() {
+
+const Nav = () => {
+
+  const [apiData, setApidata] = useState(null);
+   
+  if (localStorage.getItem('token') === null)
+  {
+  
+    console.log("local storage is empty");
+  
+  } else
+  {
+      const token = localStorage.getItem('token');
+     
+      axios.post("http://127.0.0.1:8000/Authapp/check_permission/",  {
+        headers: { 'Authorization': token }
+      })
+        .then((response) => {
+          const dataTopass = response.data;
+          setApidata(dataTopass);
+          console.log(dataTopass);
+                 
+          
+        });
+  }
+
+
+
+
+
+ 
 
     return (
 
@@ -26,17 +58,19 @@ export default function Nav() {
   <div className="collapse navbar-collapse" id="navbarText">
     <ul className="navbar-nav mr-auto">
       <li className="nav-item active">
-      <Link to="/" className="nav-link">Home</Link>
+      <Link to="/home" className="nav-link">Home</Link>
       </li>
       <li className="nav-item">
       <Link to="/signup" className="nav-link">SignUp</Link>
       </li>
       <li className="nav-item">
       <Link to="/login" className="nav-link">Login</Link>
-      
+      </li>
+      <li className="nav-item">
+      <Link to={{ pathname: '/profile', state: apiData }} className="nav-link">Profile</Link>
       </li>
     </ul>
-    {/* <span className="navbar-text">Navbar</span> */}
+   
   </div>
 </nav>
 
@@ -48,3 +82,5 @@ export default function Nav() {
     );
 
 }
+
+export default Nav;

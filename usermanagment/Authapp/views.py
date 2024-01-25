@@ -65,9 +65,13 @@ def login_view(request):
     print(login_data)
     if login_data:
         token = generate_jwt(data)
+        queryset=UserDetails.objects.get(email=data.get("email2"))
+        user_data=UserSerializer(queryset)
         response = {
         "meggage": "Logined success",
-        "jwt": token}
+        "jwt": token,
+        "u_data": user_data.data
+        }
         # response.set_cookie(key="jwt", value=token)
         return Response(response, status=status.HTTP_200_OK)
     else:
@@ -97,20 +101,30 @@ def UserView(request):
 
 @api_view(['POST'])
 def check_permission(request):
-    print("step1")
+    # print("step1")
     token = request.data
     # token = request.headers.get('Authorization')
     # print(token.get('headers'),"step2")
     token2=token.get('headers')
+    
     token3=token2.get('Authorization')
     print(token3)
     # token = token.replace("Bearer ", "")
     decoded_token = decode_token(token3)
-    decoded_token_payload = {
-        "decoded_token": decoded_token
-    }
     print(decoded_token)
-    if decoded_token:
+    email=decoded_token.get('email2')
+    queryset=UserDetails.objects.get(email=email)
+    user_data=UserSerializer(queryset)
+    # serialized_data={
+    #     "user_data":user_data,
+    # }
+    print(user_data.data)
+    if user_data.data:
 
     # return Response("okkkkk", status=status.HTTP_200_OK)
-        return Response(decoded_token_payload, status=status.HTTP_200_OK)
+        return Response(user_data.data, status=status.HTTP_200_OK)
+    else:
+        response={
+        "meggage": "Data is not valid",
+        }
+        return Response(response, status=status.HTTP_400_BAD_REQUEST)

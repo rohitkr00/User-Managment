@@ -1,9 +1,16 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+
+
+
+
+
 
 export default function Signup() {
+
+  const navigate = useNavigate();
 
     const [user, setUser] = useState({
         name:"",email:"",password:"",adress:"",gender:"",designation:"",department:"",ctc:"",education:"",phone:"",
@@ -20,11 +27,14 @@ export default function Signup() {
         setUser({...user, [name]:value});
       }
 
+    
+
       const baseURL = "http://127.0.0.1:8000/Authapp/register_view/";
       const handleSubmit = (e) => {
           e.preventDefault();
           axios.post(baseURL, user).then((response) => {
-            console.log(response)
+            console.log(response);
+            navigate("/login");
           });
         
         

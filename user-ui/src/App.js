@@ -1,26 +1,18 @@
+import "bootstrap/dist/css/bootstrap.min.css";
 import React from 'react';
 import './App.css';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-import Nav from './nav';
-import Profile from './Auth/profile';
-import Home from './Auth2/Home';
-import Login from './Auth2/Login';
-import Signup from './Auth2/Signup';
+import AuthUser from './Auth2/AuthUser';
+import Auth from './nav/auth';
+import Guest from './nav/guest';
 
 function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Nav />} >
-          <Route index element={<Home />} />
-          <Route path="signup" element={<Signup />} />
-          <Route path="login" element={<Login />} />
-          <Route path="profile" element={<Profile />} />
-        </Route> 
-      </Routes>
-    </BrowserRouter>
-  );
+  const {getToken} = AuthUser();
+  if(!getToken()){
+    return <Guest />
+  }
+  else{
+  return <Auth />
+  }
 }
 
 export default App;

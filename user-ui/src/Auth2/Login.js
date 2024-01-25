@@ -1,58 +1,76 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import AuthUser from "./AuthUser";
+
 
 
 
 export default function Login() {
+  // State to manage user login information
+   const {setToken} = AuthUser();
+   const [user_login, setUserLogin] = useState({
+    email2: "",
+    password2: ""
+  });
 
-    const [user_login, setUserLogin] = useState({
-        email2:"", password2:""
+  // Function to handle input changes in the login form
+  const handleInputLogin = (e) => {
+    const { name, value } = e.target;
+    setUserLogin({ ...user_login, [name]: value });
+  };
+
+  // Base URL for the login API endpoint
+  const baseURL2 = "http://127.0.0.1:8000/Authapp/login_view/";
+
+  // Function to handle login form submission
+  const handleSubmitLogin = (e) => 
+  {
+    e.preventDefault();
+
+    // Making a POST request to the login API endpoint
+    axios.post(baseURL2, user_login)
+      .then((response) => {
+        // If successful, set the JWT token in local storage
+        
+        setToken(response.data.u_data, response.data.jwt);
+       
       })
-    
-      let name2, value2;
-      const handleInputLogin = (e) => {
-        console.log(e);
-        name2 = e.target.name;
-        value2 = e.target.value;
-    
-        setUserLogin({...user_login, [name2]:value2});
-      }
-    
-      const baseURL2 = "http://127.0.0.1:8000/Authapp/login_view/";
-      const handleSubmitLogin = (e) => {
-        e.preventDefault();
-        axios.post(baseURL2, user_login)
-        .then((response) => {
-            localStorage.setItem('token', response.data.jwt);
-          
-          });
-          CheckResponse();
-         
-          
-      }
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
-
-
-      const baseURL3 = "http://127.0.0.1:8000/Authapp/check_permission/";
-  function CheckResponse()  {
-    
-    let token = localStorage.getItem('token');
-    // const axios = require('axios');
-    
-    
-    // console.log(headers)
-    axios.post(baseURL3, {
+  
+  const checkUserPermissionsAndNavigate = () => 
+  {
+      
+    const token = localStorage.getItem('token');
+   
+    axios.post("http://127.0.0.1:8000/Authapp/check_permission/",  {
       headers: { 'Authorization': token }
     })
-    .then((response) => {
-      console.log(response);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-  }
+      .then((response) => {
+        
+        // navigate("/profile", {state: { userdd: response.data}})
+      })
+     
+  };
+
+ 
+  const navigate = useNavigate();
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -166,6 +184,7 @@ export default function Login() {
             </div>
           </div>
         </section>
+        <Outlet />
       </>
         
 
