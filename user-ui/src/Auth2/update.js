@@ -2,49 +2,47 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import { Outlet, useNavigate } from "react-router-dom";
+import AuthUser from "./AuthUser";
 
 
 
 
 
 
-export default function Signup() {
+export default function Update() {
 
   const navigate = useNavigate();
 
-    const [user, setUser] = useState({
-        name:"",email:"",password:"",adress:"",gender:"",designation:"",department:"",ctc:"",education:"",phone:"",photo: null
-      })
+    const [user_d, setUser] = useState("")
       
+    const {user, token, setToken} = AuthUser();
     
-    
-      let name, value, type;
+      let name, value;
       const handleInputs = (e) => {
         console.log(e);
         name = e.target.name;
         value = e.target.value;
-        type = e.target.type;
-    
-        if (type === "file") {
-          setUser({ ...user, photo: e.target.files[0] });
-        } else {
-          setUser({ ...user, [name]: value });
+        if (value != ""){
+        setUser({...user_d, [name]:value});
         }
       }
 
     
 
-      const baseURL = "http://127.0.0.1:8000/Authapp/register_view/";
+      const baseURL = "http://127.0.0.1:8000/Authapp/update_view/";
       const handleSubmit = (e) => {
           e.preventDefault();
-          console.log(user);
-          const formData = new FormData();
-          for (let key in user) {
-          formData.append(key, user[key]);
-            }
-          axios.post(baseURL, formData).then((response) => {
+          console.log(user_d)
+          const uid = user.id
+          axios.patch(baseURL, user_d,{
+            headers: { 
+                'X-User-ID': uid
+                 }
+          })
+          .then((response) => {
             console.log(response);
-            navigate("/login");
+            setToken(response.data, token);
+            navigate("/profile");
           });
         
         
@@ -92,7 +90,7 @@ export default function Signup() {
               <div className="col-xl-6">
                 <div className="card-body p-md-5 text-black">
                   <h3 className="mb-5">
-                    SignUp
+                    Update Profile
                   </h3>
 
 
@@ -108,7 +106,7 @@ export default function Signup() {
                          
                           className="form-control form-control-lg"
                           name="name"
-                          value={user.name}
+                          value={user_d.name}
                           onChange={handleInputs}
                         />
                         <label className="form-label" htmlFor="form3Example1m">
@@ -124,7 +122,7 @@ export default function Signup() {
                           className="form-control form-control-lg"
                           name="email"
                           value={user.email}
-                          onChange={handleInputs}
+                          readOnly
                         />
                         <label className="form-label" htmlFor="form3Example1n">
                           Email
@@ -140,7 +138,7 @@ export default function Signup() {
                          
                           className="form-control form-control-lg"
                           name="password"
-                          value={user.password}
+                          value={user_d.password}
                           onChange={handleInputs}
                         />
                         <label className="form-label" htmlFor="form3Example1m1">
@@ -155,7 +153,7 @@ export default function Signup() {
                           
                           className="form-control form-control-lg"
                           name="ctc"
-                          value={user.ctc}
+                          value={user_d.ctc}
                           onChange={handleInputs}
                         />
                         <label className="form-label" htmlFor="form3Example1n1">
@@ -170,7 +168,7 @@ export default function Signup() {
                     
                       className="form-control form-control-lg"
                       name="adress"
-                      value={user.adress}
+                      value={user_d.adress}
                       onChange={handleInputs}
                     />
                     <label className="form-label" htmlFor="form3Example8">
@@ -187,7 +185,7 @@ export default function Signup() {
                        
                         value="female"
                         onChange={handleInputs}
-                        checked={user.gender==="female"}
+                        checked={user_d.gender==="female"}
                       />
                       <label
                         className="form-check-label"
@@ -204,7 +202,7 @@ export default function Signup() {
                        
                         value="male"
                         onChange={handleInputs}
-                        checked={user.gender==="male"}
+                        checked={user_d.gender==="male"}
                       />
                       <label className="form-check-label" htmlFor="maleGender">
                         Male
@@ -218,7 +216,7 @@ export default function Signup() {
                        
                         value="other"
                         onChange={handleInputs}
-                        checked={user.gender==="other"}
+                        checked={user_d.gender==="other"}
                       />
                       <label className="form-check-label" htmlFor="otherGender">
                         Other
@@ -233,7 +231,7 @@ export default function Signup() {
                          
                           className="form-control form-control-lg"
                           name="designation"
-                          value={user.designation}
+                          value={user_d.designation}
                           onChange={handleInputs}
                         />
                         <label className="form-label" htmlFor="form3Example1m">
@@ -248,7 +246,7 @@ export default function Signup() {
                          
                           className="form-control form-control-lg"
                           name="department"
-                          value={user.department}
+                          value={user_d.department}
                           onChange={handleInputs}
                         />
                         <label className="form-label" htmlFor="form3Example1n">
@@ -263,7 +261,7 @@ export default function Signup() {
                      
                       className="form-control form-control-lg"
                       name="education"
-                      value={user.education}
+                      value={user_d.education}
                       onChange={handleInputs}
                     />
                     <label className="form-label" htmlFor="form3Example90">
@@ -276,24 +274,23 @@ export default function Signup() {
                       
                       className="form-control form-control-lg"
                       name="phone"
-                      value={user.phone}
+                      value={user_d.phone}
                       onChange={handleInputs}
                     />
                     <label className="form-label" htmlFor="form3Example99">
                       Phone Number
                     </label>
                   </div>
-                  <div className="form-outline mb-4">
+                  {/* <div className="form-outline mb-4">
                     <input
-                      type="file"
-                      name="photo"
-                      onChange={handleInputs}
+                      type="Image"
+                     
                       className="form-control form-control-lg"
                     />
                     <label className="form-label" htmlFor="form3Example97">
                       Profile Photo
                     </label>
-                  </div>
+                  </div> */}
 
              
 
@@ -307,7 +304,7 @@ export default function Signup() {
                     <button
                       type="button"
                       className="btn btn-warning btn-lg ms-2" onClick={handleSubmit}>
-                      SignUp
+                      Update Profile
                     </button>
                   </div>
                 </div>

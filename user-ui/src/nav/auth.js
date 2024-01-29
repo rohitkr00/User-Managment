@@ -1,5 +1,5 @@
 import { Routes, Route, Link } from 'react-router-dom';
-
+import Update from '../Auth2/update';
 import Home from '../Auth2/Home';
 import React from 'react';
 import Profile from '../Auth/profile';
@@ -29,10 +29,12 @@ function Auth() {
                 </ul>
 
             </nav>
-            <div className="container">
+            <div className="">
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/profile" element={<Profile />} />
+                    <Route path="/update" element={<Update />} />
+                   
                 </Routes>
             </div>
         </>

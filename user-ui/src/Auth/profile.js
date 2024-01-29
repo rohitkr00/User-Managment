@@ -1,12 +1,17 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import AuthUser from "../Auth2/AuthUser";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const Profile = () => {
 const {user} = AuthUser();
+const navigate = useNavigate();
+console.log(user)
+
+
 return(
 
-
+<>
     <section style={{ backgroundColor: "#eee" }}>
   <div className="container py-5">
     <div className="row">
@@ -31,17 +36,17 @@ return(
         <div className="card mb-4">
           <div className="card-body text-center">
             <img
-              src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
-              alt="avatar"
+              src="C:\Users\DELL\Desktop\Mymiracle\usermanagment\media\images\IMG_20220620_003711.jpg"
+              
               className="rounded-circle img-fluid"
-              style={{ width: 150 }}
+              //style={{ width: 150 }}
             />
             <h5 className="my-3">{user.name}</h5>
             <p className="text-muted mb-1">{user.designation}</p>
             <p className="text-muted mb-4">{user.adress}</p>
             <div className="d-flex justify-content-center mb-2">
-              <button type="button" className="btn btn-primary">
-                Follow
+              <button type="button" className="btn btn-primary" onClick={()=>navigate('/update')}>
+                update profile
               </button>
               <button type="button" className="btn btn-outline-primary ms-1">
                 Message
@@ -132,8 +137,8 @@ return(
     </div>
   </div>
 </section>
-
-
+<Outlet />
+</>
 
 )
 

@@ -8,7 +8,7 @@ import React from 'react';
 function Guest() {
     return (
         <>
-            <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
+            <nav className="navbar navbar-expand-sm navbar-light bg-light">
                 <ul className="navbar-nav">
                     <li className="nav-item">
                         <Link className="nav-link" to="/">Home</Link>
@@ -23,7 +23,7 @@ function Guest() {
                 </ul>
 
             </nav>
-            <div className="container">
+            <div className="">
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />

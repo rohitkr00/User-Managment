@@ -38,6 +38,7 @@ export default function Login() {
        
       })
       .catch((error) => {
+        alert("Wrong credentials Please Re-enter the details...!!")
         console.error(error);
       });
   };

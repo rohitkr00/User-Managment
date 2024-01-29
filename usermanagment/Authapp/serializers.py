@@ -12,7 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
     ctc=serializers.IntegerField()
     adress=serializers.CharField(max_length=300)
     education=serializers.CharField(max_length=200)
-    photo=serializers.ImageField(required=False)
+    photo=serializers.ImageField(required=True)
     phone=serializers.CharField(max_length=10)
 
 

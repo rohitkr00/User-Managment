@@ -10,7 +10,7 @@ class UserDetails(models.Model):
     ctc=models.IntegerField()
     adress=models.CharField(max_length=300)
     education=models.CharField(max_length=200)
-    photo=models.ImageField(upload_to='images/images',default="")
+    photo=models.ImageField(upload_to='images/')
     phone=models.CharField(max_length=10)
 
         
