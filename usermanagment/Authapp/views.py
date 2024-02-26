@@ -8,25 +8,30 @@ from rest_framework.exceptions import AuthenticationFailed
 from .utils import generate_jwt, decode_token
 import jwt
 
-from .models import UserDetails, UserLogin
-from .serializers import UserSerializer, UserLoginSerializer
+from .models import UserDetails, UserLogin, UserTask
+from .serializers import UserSerializer, UserLoginSerializer, UserTaskSerializer
 
 
 
 @api_view(['POST', 'GET'])
 def register_view(request):
     data=request.data
+    print(data)
     email1=data.get('email')
     password1=data.get('password')
     data2={'emai':email1, 'password': password1}
-    print(data)
+    # print(data)
     if request.method=='POST':
+        # image_file = request.FILES.get('photo')
+        # binary_data = image_file.read()
+        # data['photo'] = binary_data
+        # print("photo")
         serializer=UserSerializer(data=data)
         # serializer_login=UserLoginSerializer(data=data2)
         
         # print(data)
         if serializer.is_valid():
-            # print("sdasdasd")
+            print("sdasdasd")
             serializer.save()
             data11=UserLogin.objects.create(
             emai=email1,
@@ -122,3 +127,90 @@ def update_view(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+@api_view(['POST', 'GET'])
+def task_view(request):
+    data=request.data
+    print(data)
+    if request.method=='POST':
+        serializer=UserTaskSerializer(data=data)
+        if serializer.is_valid():
+            print("check1")
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({
+            "message":"Data is not valid"
+        }, status=status.HTTP_400_BAD_REQUEST)
+    
+
+
+
+
+@api_view(['POST', 'GET'])
+def fetch_task(request):
+    data=request.data
+    # print(data)
+    email2=data.get('email')
+    if request.method=='POST':
+        query_data=UserTask.objects.filter(useremail=email2)
+        if query_data.exists():
+            task_data=UserTaskSerializer(query_data, many=True)
+            return Response(task_data.data, status=status.HTTP_200_OK)
+        return Response({"message": "No tasks found for the provided email"}, status=status.HTTP_404_NOT_FOUND)
+    return Response({
+            "message":"Data is not valid"
+         }, status=status.HTTP_400_BAD_REQUEST)
+    
+
+@api_view(['POST', 'GET', ])
+def delete_task(request):
+    data=request.data
+    print(data)
+    id=data.get('id')
+    if request.method=='POST':
+        query_data=UserTask.objects.get(id=id)
+        if query_data:
+            query_data.delete()
+            return Response("Delete Succesfull", status=status.HTTP_200_OK)
+        return Response({"message": "No tasks found for the provided id"}, status=status.HTTP_404_NOT_FOUND)
+    return Response({
+            "message":"Data is not valid"
+         }, status=status.HTTP_400_BAD_REQUEST)
+    
+
+
+
+
+@api_view(['POST', 'GET'])
+def fetch_user(request):
+    # data=request.data
+    # print(data)
+    # email2=data.get('email')
+    if request.method=='GET':
+        print("check1")
+        query_data=UserDetails.objects.filter(role="user")
+        print("check2")
+        print(query_data)
+        if query_data.exists():
+            task_data=UserSerializer(query_data, many=True)
+            return Response(task_data.data, status=status.HTTP_200_OK)
+        return Response({"message": "No User found for the provided email"}, status=status.HTTP_404_NOT_FOUND)
+    if request.method=='POST':
+        data=request.data
+        # print(data)
+        id=data.get('id')
+        query_data=UserDetails.objects.get(id=id)
+        query_data_login=UserLogin.objects.get(id=id)
+        if query_data:
+            query_data.delete()
+            query_data_login.delete()
+            return Response("Delete Succesfull", status=status.HTTP_200_OK)
+        return Response({"message": "No tasks found for the provided id"}, status=status.HTTP_404_NOT_FOUND)
+    return Response({
+            "message":"Data is not valid"
+         }, status=status.HTTP_400_BAD_REQUEST)
+    
+    

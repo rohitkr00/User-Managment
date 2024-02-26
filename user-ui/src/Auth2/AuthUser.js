@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 export default function AuthUser(){
     const navigate = useNavigate();
 
+    
     const getToken = () =>{
         const tokenString = localStorage.getItem('token');
         const userToken = JSON.parse(tokenString);
@@ -17,6 +18,7 @@ export default function AuthUser(){
         return user_detail;
     }
 
+    
 
 
     const [token,setToken] = useState(getToken());
@@ -28,21 +30,17 @@ export default function AuthUser(){
 
         setToken(token);
         setUser(user);
-        navigate('/profile');
+        navigate('/');
+        window.location.reload();
     }
 
     const logout = () => {
         localStorage.clear();
         navigate('/login');
+        window.location.reload();
     }
 
-    // const http = axios.create({
-    //     baseURL:"http://localhost:8000/api",
-    //     headers:{
-    //         "Content-type" : "application/json",
-    //         "Authorization" : `Bearer ${token}`
-    //     }
-    // });
+   
     return {
         setToken:saveToken,
         token,

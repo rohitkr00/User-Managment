@@ -173,7 +173,9 @@ export default function Login() {
                           </button>
                           <button
                             type="button"
-                            className="btn btn-light btn-lg">
+                            className="btn btn-light btn-lg"
+                            onClick={()=>navigate("/signup")}
+                            >
                             SignUp
                           </button>
                         </div>

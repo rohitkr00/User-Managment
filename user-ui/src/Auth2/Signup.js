@@ -13,7 +13,7 @@ export default function Signup() {
   const navigate = useNavigate();
 
     const [user, setUser] = useState({
-        name:"",email:"",password:"",adress:"",gender:"",designation:"",department:"",ctc:"",education:"",phone:"",photo: null
+        name:"",email:"",role:"user",password:"",adress:"",gender:"",designation:"",department:"",ctc:"",education:"",phone:"",photo: null
       })
       
     
@@ -37,15 +37,23 @@ export default function Signup() {
       const baseURL = "http://127.0.0.1:8000/Authapp/register_view/";
       const handleSubmit = (e) => {
           e.preventDefault();
-          console.log(user);
+          // console.log(user);
           const formData = new FormData();
           for (let key in user) {
           formData.append(key, user[key]);
             }
           axios.post(baseURL, formData).then((response) => {
+            
             console.log(response);
-            navigate("/login");
+            if (response.data != null){
+              navigate("/login");
+            }
+          })
+          .catch((error) => {
+            alert("Wrong credentials Please Re-enter the details...!!")
+            console.error(error);
           });
+          
         
         
           
@@ -301,7 +309,7 @@ export default function Signup() {
 
                   <div className="d-flex justify-content-end pt-3">
                     
-                    <button type="button" className="btn btn-light btn-lg" >
+                    <button type="button" className="btn btn-light btn-lg" onClick={()=>navigate("/login")} >
                       Login
                     </button>
                     <button
