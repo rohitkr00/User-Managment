@@ -1,6 +1,9 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function AuthUser(){
     const navigate = useNavigate();
@@ -30,14 +33,20 @@ export default function AuthUser(){
 
         setToken(token);
         setUser(user);
-        navigate('/');
+        navigate('/', { state: { num: "0" } });
+        
         window.location.reload();
+        // toast.success("Login Successfull!");
     }
 
     const logout = () => {
         localStorage.clear();
+        
+        // navigate('/login',{ state: { num: "0" } });
         navigate('/login');
+        toast.warning("Logout Successfull!!!");
         window.location.reload();
+        
     }
 
    

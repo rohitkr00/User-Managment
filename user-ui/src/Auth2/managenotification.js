@@ -6,10 +6,11 @@ import AuthUser from "./AuthUser";
 import axios from "axios";
 import ReactLoading from "react-loading";
 
-export default function ManageTask()
+
+export default function ManageNotification()
 {
+    
     const {user} = AuthUser();
-   
     const currentdate = new Date();
    
     const id = user.email;
@@ -24,8 +25,8 @@ useEffect(()=> {
   const ShowTask =  () =>{
 
 
-    const baseURL5 = "http://127.0.0.1:8000/Authapp/fetch_task/";
-    axios.post(baseURL5,{email: id})
+    const baseURL5 = "http://127.0.0.1:8000/Authapp/add_notification/";
+    axios.get(baseURL5)
       .then((response) => {
         // console.log(response.data);
         setData(response.data);
@@ -53,7 +54,7 @@ useEffect(()=> {
 
 
 
-    const baseURL4 = "http://127.0.0.1:8000/Authapp/task_view/";
+    const baseURL4 = "http://127.0.0.1:8000/Authapp/add_notification/";
 
     const [task, setTask] = useState('');
     const handleInputLogin = (e) => {
@@ -67,9 +68,9 @@ useEffect(()=> {
         console.log(task);
     
         const taskinfo = {
-            useremail: id,
+            adminemail: id,
             date: currentdate,
-            task: task.value
+            news: task.value
     
         }
         
@@ -90,7 +91,7 @@ useEffect(()=> {
 
     const Deletetask = (uid) =>{
 
-      axios.post("http://127.0.0.1:8000/Authapp/delete_task/",{id:uid})
+      axios.post("http://127.0.0.1:8000/Authapp/delete_notification/",{id:uid})
       .then((response) => {
     
         console.log(response.data);
@@ -128,8 +129,8 @@ useEffect(()=> {
         <div className="card shadow p-3 mb-2 bg-white rounded">  
   
   <div className="card-body">
-    <h5 className="card-title">Manage Your Task Here</h5>
-    <p className="card-text">Describe Your task in the input field and click on submit to add new task.</p>
+    <h5 className="card-title">Manage All Notification</h5>
+    <p className="card-text">Describe the latest news and click on submit to display for all users.</p>
     {/* <button className="btn btn-primary"  >Show all Your Task</button><br /><br /> */}
    <form id="mytask"><textarea className="form-control shadow p-3 mb-3 bg-white rounded" onChange={handleInputLogin} id="task" placeholder="Describe Your Task" ></textarea>
     <input type="submit" className="btn btn-success shadow p-2 mb-2 bg-success rounded" onClick={taskperform} /></form>
@@ -141,10 +142,10 @@ useEffect(()=> {
                   
                   <div className="card shadow p-3 m-3 bg-white rounded" style={{width: '18rem'}}>
                   <div className="card-body">
-                    <h5 className="card-title">Task :- {index + 1}</h5>
+                    <h5 className="card-title">Notification :- {index + 1}</h5>
                     <h6 className="card-subtitle mb-2 text-muted">{task.date}</h6>
-                    <p className="card-text">{task.task}</p>
-                    <button className="btn btn-danger text-right" onClick={()=>Deletetask(task.id)} >Delete Task</button>
+                    <p className="card-text">{task.news}</p>
+                    <button className="btn btn-danger text-right" onClick={()=>Deletetask(task.id)} >Delete Notification</button>
    
                    
                   </div>

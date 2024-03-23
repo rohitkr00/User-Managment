@@ -28,3 +28,9 @@ class UserTask(models.Model):
     useremail=models.EmailField(max_length=254)
     date=models.CharField(max_length=254)
     task=models.TextField()
+
+
+class Notifications(models.Model):
+    adminemail=models.EmailField(max_length=254)
+    date=models.CharField(max_length=254)
+    news=models.TextField()

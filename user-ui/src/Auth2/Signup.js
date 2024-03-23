@@ -2,6 +2,9 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import { Outlet, useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 
@@ -13,8 +16,11 @@ export default function Signup() {
   const navigate = useNavigate();
 
     const [user, setUser] = useState({
-        name:"",email:"",role:"user",password:"",adress:"",gender:"",designation:"",department:"",ctc:"",education:"",phone:"",photo: null
+        name:"",email:"",role:"user",password:"",adress:"",gender:"",designation:"",department:"",ctc:"",education:"",phone:"",photo: null,otp:""
       })
+
+   
+
       
     
     
@@ -32,31 +38,58 @@ export default function Signup() {
         }
       }
 
+      // let otp2;
+      // const handleOtp = (e) => {
+      //   otp2 = e.target.value;
+      //   setOtp(otp2);
+      // };
+
     
 
       const baseURL = "http://127.0.0.1:8000/Authapp/register_view/";
       const handleSubmit = (e) => {
           e.preventDefault();
           // console.log(user);
-          const formData = new FormData();
-          for (let key in user) {
-          formData.append(key, user[key]);
-            }
-          axios.post(baseURL, formData).then((response) => {
+          // const formData = new FormData();
+          // for (let key in user) {
+          // formData.append(key, user[key]);
+          //   }
+          
+          axios.post(baseURL, user)
+          .then((response) => {
             
             console.log(response);
             if (response.data != null){
+              toast.success("User has been registered");
               navigate("/login");
             }
           })
           .catch((error) => {
-            alert("Wrong credentials Please Re-enter the details...!!")
+            toast.error("Wrong credentials Please Re-enter the details...!!")
+            console.error(error);
+          });       
+          
+      }
+
+
+      const baseURL0 = "http://127.0.0.1:8000/Authapp/fetch_email/";
+      const Sendotp = () =>{
+        if (user.email !== ""){
+          axios.post(baseURL0, {email: user.email})
+          .then((response) => {
+            toast.success('Otp has been sent to your email adresss!');
+            console.log(response);
+            
+            
+          })
+          .catch((error) => {
+            alert("Please Enter valid email")
             console.error(error);
           });
-          
-        
-        
-          
+        }
+        else{
+          toast.warning("Plz Enter valid mail id!");
+        }
       }
 
 
@@ -68,28 +101,17 @@ export default function Signup() {
  <>
 
 
-  <meta charSet="utf-8" />
-  <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-  <title />
-  <meta name="description" content="" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="" />
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-    crossOrigin="anonymous"
-  />
-  <section className="h-100 bg-dark">
-    <div className="container py-5 h-100">
+  
+  <section className="h-100 ">
+    <div className="container py-0 h-100 ">
       <div className="row d-flex justify-content-center align-items-center h-100">
-        <div className="col">
-          <div className="card card-registration my-4">
-            <div className="row g-0">
+        <div className="col ">
+          <div className="card card-registration my-4  shadow p-1 mb-2 bg-white rounded">
+            <div className="row g-0 bg-light">
               <div className="col-xl-6 d-none d-xl-block">
                 <img
                   src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img4.webp"
-                  alt="Sample photo"
+                  alt="Sample"
                   className="img-fluid"
                   style={{
                     borderTopLeftRadius: ".25rem",
@@ -98,8 +120,8 @@ export default function Signup() {
                 />
               </div>
               <div className="col-xl-6">
-                <div className="card-body p-md-5 text-black">
-                  <h3 className="mb-5">
+                <div className="card-body p-md-4 text-black">
+                  <h3 className="mb-3">
                     SignUp
                   </h3>
 
@@ -109,12 +131,12 @@ export default function Signup() {
 
                    
                   <div className="row">
-                    <div className="col-md-6 mb-4">
+                    <div className="col-md-6 mb-2">
                       <div className="form-outline">
                         <input
                           type="text"
                          
-                          className="form-control form-control-lg"
+                          className="form-control form-control-lg card shadow p-1 mb-2 bg-white rounded"
                           name="name"
                           value={user.name}
                           onChange={handleInputs}
@@ -124,12 +146,12 @@ export default function Signup() {
                         </label>
                       </div>
                     </div>
-                    <div className="col-md-6 mb-4">
+                    <div className="col-md-6 mb-2">
                       <div className="form-outline">
                         <input
                           type="Email"
                           
-                          className="form-control form-control-lg"
+                          className="form-control form-control-lg card shadow p-1 mb-2 bg-white rounded"
                           name="email"
                           value={user.email}
                           onChange={handleInputs}
@@ -141,12 +163,12 @@ export default function Signup() {
                     </div>
                   </div>
                   <div className="row">
-                    <div className="col-md-6 mb-4">
+                    <div className="col-md-6 mb-2">
                       <div className="form-outline">
                         <input
                           type="password"
                          
-                          className="form-control form-control-lg"
+                          className="form-control form-control-lg card shadow p-1 mb-2 bg-white rounded"
                           name="password"
                           value={user.password}
                           onChange={handleInputs}
@@ -156,12 +178,12 @@ export default function Signup() {
                         </label>
                       </div>
                     </div>
-                    <div className="col-md-6 mb-4">
+                    <div className="col-md-6 mb-2">
                       <div className="form-outline">
                         <input
                           type="number"
                           
-                          className="form-control form-control-lg"
+                          className="form-control form-control-lg card shadow p-1 mb-2 bg-white rounded"
                           name="ctc"
                           value={user.ctc}
                           onChange={handleInputs}
@@ -172,11 +194,11 @@ export default function Signup() {
                       </div>
                     </div>
                   </div>
-                  <div className="form-outline mb-4">
+                  <div className="form-outline mb-2">
                     <input
                       type="text"
                     
-                      className="form-control form-control-lg"
+                      className="form-control form-control-lg card shadow p-1 mb-2 bg-white rounded"
                       name="adress"
                       value={user.adress}
                       onChange={handleInputs}
@@ -234,12 +256,12 @@ export default function Signup() {
                     </div>
                   </div>
                   <div className="row">
-                    <div className="col-md-6 mb-4">
+                    <div className="col-md-6 mb-2">
                       <div className="form-outline">
                         <input
                           type="text"
                          
-                          className="form-control form-control-lg"
+                          className="form-control form-control-lg card shadow p-1 mb-2 bg-white rounded"
                           name="designation"
                           value={user.designation}
                           onChange={handleInputs}
@@ -249,12 +271,12 @@ export default function Signup() {
                         </label>
                       </div>
                     </div>
-                    <div className="col-md-6 mb-4">
+                    <div className="col-md-6 mb-2">
                       <div className="form-outline">
                         <input
                           type="Email"
                          
-                          className="form-control form-control-lg"
+                          className="form-control form-control-lg card shadow p-1 mb-2 bg-white rounded"
                           name="department"
                           value={user.department}
                           onChange={handleInputs}
@@ -265,11 +287,11 @@ export default function Signup() {
                       </div>
                     </div>
                   </div>
-                  <div className="form-outline mb-4">
+                  <div className="form-outline mb-2">
                     <input
                       type="text"
                      
-                      className="form-control form-control-lg"
+                      className="form-control form-control-lg card shadow p-1 mb-2 bg-white rounded"
                       name="education"
                       value={user.education}
                       onChange={handleInputs}
@@ -278,11 +300,11 @@ export default function Signup() {
                       Education
                     </label>
                   </div>
-                  <div className="form-outline mb-4">
+                  <div className="form-outline mb-2">
                     <input
                       type="tel"
                       
-                      className="form-control form-control-lg"
+                      className="form-control form-control-lg card shadow p-1 mb-2 bg-white rounded"
                       name="phone"
                       value={user.phone}
                       onChange={handleInputs}
@@ -291,16 +313,29 @@ export default function Signup() {
                       Phone Number
                     </label>
                   </div>
-                  <div className="form-outline mb-4">
+                  <div className="form-outline mb-2">
                     <input
                       type="file"
                       name="photo"
                       onChange={handleInputs}
-                      className="form-control form-control-lg"
+                      className="form-control form-control-lg card shadow p-1 mb-2 bg-white rounded"
                     />
                     <label className="form-label" htmlFor="form3Example97">
                       Profile Photo
                     </label>
+                  </div>
+                  <div className="form-outline mb-2">
+                    <input
+                      type="text"
+                      placeholder="Enter OTP"
+                      className="form-control form-control-lg card shadow p-1 mb-2 bg-white rounded"
+                      value={user.otp}
+                      name="otp" 
+                      onChange={handleInputs}                     
+                    />
+                    <button className="btn btn-warning mt-2 " onClick={Sendotp}>Generate Otp</button>
+                    
+                    
                   </div>
 
              
@@ -314,7 +349,7 @@ export default function Signup() {
                     </button>
                     <button
                       type="button"
-                      className="btn btn-warning btn-lg ms-2" onClick={handleSubmit}>
+                      className="btn btn-success btn-lg ms-2" onClick={handleSubmit}>
                       SignUp
                     </button>
                   </div>

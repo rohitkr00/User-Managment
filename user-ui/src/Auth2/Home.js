@@ -1,13 +1,22 @@
 import React from "react";
-import './style.css';
+// import './style.css';
 import myImage from "./img/hero-img.png"
 import { Link } from "react-router-dom";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useLocation } from "react-router-dom";
+
 
 
 
 export default function Home() {
    
-  
+  const { state } = useLocation();
+  const num = state && state.num;
+  console.log(num);
+  if (num !== null){
+    toast.success("Login Successfull!!");
+  }
    
     return (
 
@@ -24,11 +33,11 @@ export default function Home() {
           <h2>
             This is User-managment system to manage the user of any organization.
           </h2>
-          <a className="btn-get-started scrollto">
-          <Link className="nav-link" to="/about">
+          
+          <Link className="btn-get-started scrollto nav-link" to="/about">
                                 Get Started
                             </Link>
-          </a>
+          
         </div>
       </div>
       <div

@@ -3,6 +3,10 @@ import { useState } from "react";
 import axios from "axios";
 import { Outlet, useNavigate } from "react-router-dom";
 import AuthUser from "./AuthUser";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+// import { useLocation } from "react-router-dom";
+
 
 
 
@@ -14,6 +18,13 @@ export default function Login() {
     email2: "",
     password2: ""
   });
+  
+  // const { state } = useLocation();
+  // const num = state && state.num;
+  // console.log(num);
+  // if (num !== null){
+  //   toast.warning("Logout Successfull!!")
+  // }
 
   // Function to handle input changes in the login form
   const handleInputLogin = (e) => {
@@ -33,31 +44,19 @@ export default function Login() {
     axios.post(baseURL2, user_login)
       .then((response) => {
         // If successful, set the JWT token in local storage
-        
+        toast.warning("logout");
         setToken(response.data.u_data, response.data.jwt);
+        
+        
        
       })
       .catch((error) => {
-        alert("Wrong credentials Please Re-enter the details...!!")
+        toast.error("Wrong credentials Please Re-enter the details...!!");
         console.error(error);
       });
   };
 
   
-  const checkUserPermissionsAndNavigate = () => 
-  {
-      
-    const token = localStorage.getItem('token');
-   
-    axios.post("http://127.0.0.1:8000/Authapp/check_permission/",  {
-      headers: { 'Authorization': token }
-    })
-      .then((response) => {
-        
-        // navigate("/profile", {state: { userdd: response.data}})
-      })
-     
-  };
 
  
   const navigate = useNavigate();
@@ -81,28 +80,17 @@ export default function Login() {
     return (
 
         <>
-        <meta charSet="utf-8" />
-        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <title />
-        <meta name="description" content="" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" href="" />
-        <link
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-          crossOrigin="anonymous"
-        />
-        <section className="h-100 bg-dark">
-          <div className="container py-5 h-100">
+        <ToastContainer />
+        <section className="h-100">
+          <div className="container py-0 h-100">
             <div className="row d-flex justify-content-center align-items-center h-100">
               <div className="col">
-                <div className="card card-registration my-4">
-                  <div className="row g-0">
+                <div className="card card-registration my-0 shadow p-1 mb-2 bg-white rounded">
+                  <div className="row g-0 bg-light">
                     <div className="col-xl-6 d-none d-xl-block">
                       <img
                         src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img4.webp"
-                        alt="Sample photo"
+                        alt="Sample"
                         className="img-fluid"
                         style={{
                           borderTopLeftRadius: ".25rem",
@@ -127,7 +115,7 @@ export default function Login() {
             <input
               type="email"
              
-              className="form-control form-control-lg"
+              className="form-control form-control-lg card shadow p-1 mb-2 bg-white rounded"
               name="email2"
               value={user_login.email2}
               onChange={handleInputLogin}
@@ -142,7 +130,7 @@ export default function Login() {
             <input
               type="password"
               
-              className="form-control form-control-lg"
+              className="form-control form-control-lg card shadow p-1 mb-2 bg-white rounded"
               name="password2"
               value={user_login.password2}
               onChange={handleInputLogin}

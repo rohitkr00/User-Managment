@@ -1,18 +1,20 @@
 import React from "react";
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useState, useEffect, useMemo } from "react";
-import AuthUser from "./AuthUser";
+import { useLocation } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import ReactLoading from "react-loading";
+
 import axios from "axios";
 
 
 export default function AdminManageTask()
 {
-    const {user} = AuthUser();
-    const navigate = useNavigate();
+    
+   
     const currentdate = new Date();
     const { state } = useLocation();
     const email = state && state.email;
-    const [id, setId] = useState(email);
+    const id = email;
+    // const [id, setId] = useState(email);
    
     const [data,setData ] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -113,7 +115,9 @@ useEffect(()=> {
 
 
     if (loading){
-    return <div>Loading....</div>;
+    return (<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+    <ReactLoading type="spokes" color="#0000FF" height={500} width={250} />
+  </div>);
    }
     
     
@@ -123,18 +127,18 @@ useEffect(()=> {
         <>
        
   
-    <div>
+    <div className="d-flex align-content-around flex-wrap p-3">
                 {data.length > 0 ?(data.map  ((task, index) => (
-                   <div className="card">
-  <div className="card-header">
-   Task {index + 1}
-  </div>
-  <div className="card-body">
-    <h6 className="card-title">Date:-  {task.date}</h6>
-    <p className="card-text">{task.task}</p>
-    <button className="btn btn-danger text-right" onClick={()=>Deletetask(task.id)} >Delete Task</button>
-  </div>
-</div> 
+                   <div className="card shadow p-3  m-3 bg-white rounded" style={{width: '18rem'}}>
+                   <div className="card-body">
+                     <h5 className="card-title">Task :- {index + 1}</h5>
+                     <h6 className="card-subtitle mb-2 text-muted">{task.date}</h6>
+                     <p className="card-text">{task.task}</p>
+                     <button className="btn btn-danger text-right" onClick={()=>Deletetask(task.id)} >Delete Task</button>
+    
+                    
+                   </div>
+                 </div>
                 ))) : (
                     <h1>No data</h1>
                   )

@@ -1,0 +1,41 @@
+.navbar{
+    background: #3b2199;
+     
+    z-index: 999;
+    width: 100%;
+    
+
+}
+
+.navbar h3{
+    color: #f3b462;
+
+}
+.head_hover :hover{
+    color: #f3b462;
+
+}
+.list_item h6{
+    color: rgb(252, 246, 246) !important;
+    font-weight: 800;
+    font-size: larger;
+}
+.list_item1 h6{
+    color: rgb(4, 100, 12) !important;
+    font-weight: 900;
+}
+.list_grp{
+    margin-left: auto;
+}
+
+.title_card{
+    background-color: rgb(222, 240, 187);
+    border-radius: 5px;
+    
+}
+
+.title_card_2 h6{
+    /* background: linear-gradient(rgb(231, 236, 199), rgb(210, 241, 190), rgb(170, 241, 238)); */
+    font-size: 12px;
+    
+}

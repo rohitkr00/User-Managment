@@ -84,7 +84,7 @@ return(
   </thead>
   <tbody>
   {data.map((task, index) => (
-    <tr>
+    <tr className="shadow p-3 mb-5 bg-white rounded">
       <th scope="row">{task.id}</th>
       <td>{task.email}</td>
       <td>{task.name}</td>

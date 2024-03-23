@@ -86,7 +86,8 @@ CORS_ALLOW_HEADERS = [
     'user-agent',
     'x-csrftoken',
     'x-requested-with',
-    'x-user-id',  
+    'x-user-id',
+    'X-OTP'  
 ]
 
 WSGI_APPLICATION = 'usermanagment.wsgi.application'
@@ -148,6 +149,18 @@ REST_FRAMEWORK = {
 		'rest_framework_simplejwt.authentication.JWTAuthentication', 
 	], 
 } 
+
+
+# sending emails
+
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_HOST_USER='manankr21@gmail.com'
+EMAIL_HOST_PASSWORD='Rohit@123'
+EMAIL_PORT=465
+EMAIL_USE_TLS=True
+EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+
+
 
 
 # Static files (CSS, JavaScript, Images)

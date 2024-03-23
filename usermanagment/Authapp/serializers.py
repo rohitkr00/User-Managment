@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import UserDetails, UserLogin, UserTask
+from .models import UserDetails, UserLogin, UserTask, Notifications
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -23,7 +23,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserLoginSerializer(serializers.ModelSerializer):
 
-    email=serializers.EmailField()
+    emai=serializers.EmailField()
     password=serializers.CharField(max_length=200)
     
     class Meta:
@@ -40,4 +40,15 @@ class UserTaskSerializer(serializers.ModelSerializer):
     
     class Meta:
         model=UserTask
+        fields="__all__"
+
+
+
+
+class NotificationsSerializer(serializers.ModelSerializer):
+
+   
+    
+    class Meta:
+        model=Notifications
         fields="__all__"

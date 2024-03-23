@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import { Outlet, useNavigate } from "react-router-dom";
 import AuthUser from "./AuthUser";
+import myImage from "./img/a1.avif"
 
 
 
@@ -22,7 +23,7 @@ export default function Update() {
         console.log(e);
         name = e.target.name;
         value = e.target.value;
-        if (value != ""){
+        if (value !== ""){
         setUser({...user_d, [name]:value});
         }
       }
@@ -58,28 +59,16 @@ export default function Update() {
  <>
 
 
-  <meta charSet="utf-8" />
-  <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-  <title />
-  <meta name="description" content="" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="" />
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-    crossOrigin="anonymous"
-  />
-  <section className="h-100 bg-dark">
-    <div className="container py-5 h-100">
+  <section className="h-100 bg-light">
+    <div className="container  h-100 ">
       <div className="row d-flex justify-content-center align-items-center h-100">
-        <div className="col">
-          <div className="card card-registration my-4">
+        <div className="col ">
+          <div className="card card-registration shadow ">
             <div className="row g-0">
               <div className="col-xl-6 d-none d-xl-block">
                 <img
-                  src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img4.webp"
-                  alt="Sample photo"
+                  src={myImage}
+                  alt="Sample"
                   className="img-fluid"
                   style={{
                     borderTopLeftRadius: ".25rem",
@@ -89,7 +78,7 @@ export default function Update() {
               </div>
               <div className="col-xl-6">
                 <div className="card-body p-md-5 text-black">
-                  <h3 className="mb-5">
+                  <h3 className="mb-3">
                     Update Profile
                   </h3>
 
@@ -99,7 +88,7 @@ export default function Update() {
 
                    
                   <div className="row">
-                    <div className="col-md-6 mb-4">
+                    <div className="col-md-6 mb-1">
                       <div className="form-outline">
                         <input
                           type="text"
@@ -114,7 +103,7 @@ export default function Update() {
                         </label>
                       </div>
                     </div>
-                    <div className="col-md-6 mb-4">
+                    <div className="col-md-6 mb-1">
                       <div className="form-outline">
                         <input
                           type="Email"
@@ -131,7 +120,7 @@ export default function Update() {
                     </div>
                   </div>
                   <div className="row">
-                    <div className="col-md-6 mb-4">
+                    <div className="col-md-6 mb-1">
                       <div className="form-outline">
                         <input
                           type="password"
@@ -146,7 +135,7 @@ export default function Update() {
                         </label>
                       </div>
                     </div>
-                    <div className="col-md-6 mb-4">
+                    <div className="col-md-6 mb-1">
                       <div className="form-outline">
                         <input
                           type="number"
@@ -162,7 +151,7 @@ export default function Update() {
                       </div>
                     </div>
                   </div>
-                  <div className="form-outline mb-4">
+                  <div className="form-outline mb-1">
                     <input
                       type="text"
                     
@@ -175,7 +164,7 @@ export default function Update() {
                       Address
                     </label>
                   </div>
-                  <div className="d-md-flex justify-content-start align-items-center mb-4 py-2">
+                  <div className="d-md-flex justify-content-start align-items-center mb-1 py-2">
                     <h6 className="mb-0 me-4">Gender: </h6>
                     <div className="form-check form-check-inline mb-0 me-4">
                       <input
@@ -224,7 +213,7 @@ export default function Update() {
                     </div>
                   </div>
                   <div className="row">
-                    <div className="col-md-6 mb-4">
+                    <div className="col-md-6 mb-1">
                       <div className="form-outline">
                         <input
                           type="text"
@@ -239,7 +228,7 @@ export default function Update() {
                         </label>
                       </div>
                     </div>
-                    <div className="col-md-6 mb-4">
+                    <div className="col-md-6 mb-1">
                       <div className="form-outline">
                         <input
                           type="Email"
@@ -255,7 +244,7 @@ export default function Update() {
                       </div>
                     </div>
                   </div>
-                  <div className="form-outline mb-4">
+                  <div className="form-outline mb-1">
                     <input
                       type="text"
                      
@@ -268,7 +257,7 @@ export default function Update() {
                       Education
                     </label>
                   </div>
-                  <div className="form-outline mb-4">
+                  <div className="form-outline mb-1">
                     <input
                       type="tel"
                       
@@ -281,7 +270,7 @@ export default function Update() {
                       Phone Number
                     </label>
                   </div>
-                  {/* <div className="form-outline mb-4">
+                  {/* <div className="form-outline mb-1">
                     <input
                       type="Image"
                      
@@ -298,9 +287,7 @@ export default function Update() {
 
                   <div className="d-flex justify-content-end pt-3">
                     
-                    <button type="button" className="btn btn-light btn-lg" >
-                      Login
-                    </button>
+                   
                     <button
                       type="button"
                       className="btn btn-warning btn-lg ms-2" onClick={handleSubmit}>
